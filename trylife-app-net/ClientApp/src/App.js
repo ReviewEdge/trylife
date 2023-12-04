@@ -10,12 +10,13 @@ export default class App extends Component {
   render() {
     return (
       <Layout>
-        <Routes>
+        {/* <Routes>
           {AppRoutes.map((route, index) => {
             const { element, ...rest } = route;
             return <Route key={index} {...rest} element={element} />;
           })}
-        </Routes>
+        </Routes> */}
+        <div>TryLife</div>
       </Layout>
     );
   }
