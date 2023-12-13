@@ -32,6 +32,21 @@ public class ClientController : ControllerBase
         return Ok(client);
     }
 
+    [HttpGet("clients")]
+    public async Task<IActionResult> GetAllClients()
+    {
+        var clients = await _context.Clients.ToListAsync(); // Assuming Entity Framework is being used
+
+        if (clients == null || !clients.Any())
+        {
+            return NotFound(); // Or return an empty list, depending on your requirements
+        }
+
+        _logger.LogInformation("All clients have been retrieved: {@Clients}", clients);
+        return Ok(clients);
+    }
+
+
     [HttpGet("ByName")]
     public IActionResult GetClientByName([FromQuery] string name)
     {

@@ -31,6 +31,21 @@ public class ProductController : ControllerBase
         return Ok(product);
     }
 
+    [HttpGet("products")]
+    public async Task<IActionResult> GetAllProducts()
+    {
+        var products = await _context.Products.ToListAsync(); // Assuming Entity Framework is being used
+
+        if (products == null || !products.Any())
+        {
+            return NotFound(); // Or return an empty list, depending on your requirements
+        }
+
+        _logger.LogInformation("All products have been retrieved: {@Products}", products);
+        return Ok(products);
+    }
+
+
     [HttpPost]
     public async Task<IActionResult> CreateProduct([FromBody] Product product)
     {
