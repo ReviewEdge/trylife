@@ -15,12 +15,11 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddControllersWithViews();
+        services.AddScoped<ApplicationBuilder>();
+
         services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                options.UseMySQL(Configuration.GetConnectionString("DefaultConnection"));
-                options.EnableSensitiveDataLogging();
-                options.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()));
-            }); 
+        options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
 
         services.AddCors(options =>
         {

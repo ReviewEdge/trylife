@@ -4,60 +4,70 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
 [ApiController]
 [Route("[controller]")]
 public class ClientController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
-    private readonly ILogger<ClientController> _logger;
 
-    public ClientController(ApplicationDbContext context, ILogger<ClientController> logger)
+    public ClientController(ApplicationDbContext context)
     {
         _context = context;
-        _logger = logger;
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet]
     public async Task<IActionResult> GetClientById(int id)
     {
-        var client = await _context.Clients.FindAsync(id);
-
-        if (client == null)
+        try
         {
-            return NotFound(); // 404
-        }
+            var client = await _context.Client.FindAsync(id);
 
-        _logger.LogInformation("Client with ID {ClientId} has been read: {@Client}", id, client);
-        return Ok(client);
+            if (client == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(client);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the getClientById");
+        }
     }
 
-    [HttpGet("clients")]
-    public async Task<IActionResult> GetAllClients()
+    [HttpGet("/clients")]
+    public async Task<IActionResult>  GetAllClients()
     {
-        var clients = await _context.Clients.ToListAsync(); // Assuming Entity Framework is being used
-
-        if (clients == null || !clients.Any())
+        try
         {
-            return NotFound(); // Or return an empty list, depending on your requirements
-        }
+            // var clients = await _context.Clients.ToListAsync();
 
-        _logger.LogInformation("All clients have been retrieved: {@Clients}", clients);
-        return Ok(clients);
+            // if (clients == null || !clients.Any())
+            // {
+            //     return NotFound();
+            // }
+            var clients = new {name = "Chad"};
+            return Ok(clients);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the getAllClients");
+        }
     }
 
 
-    [HttpGet("ByName")]
+    [HttpGet]
     public IActionResult GetClientByName([FromQuery] string name)
     {
-        var client = _context.Clients.FirstOrDefault(c => c.Name == name);
+        var client = _context.Client.FirstOrDefault(c => c.Name == name);
 
         if (client == null)
         {
             return NotFound(); // 404
         }
 
-        _logger.LogInformation("Client with Name {ClientName} has been read: {@Client}", name, client);
         return Ok(client);
     }
 
@@ -69,10 +79,9 @@ public class ClientController : ControllerBase
             return BadRequest(); // 400
         }
 
-        _context.Clients.Add(client);
+        _context.Client.Add(client);
         await _context.SaveChangesAsync(); // save changes
 
-        _logger.LogInformation("Client with ID {ClientId} has been created: {@Client}", client.Id, client);
         return CreatedAtAction(nameof(GetClientById), new { id = client.Id }, client); // 201
     }
 }
