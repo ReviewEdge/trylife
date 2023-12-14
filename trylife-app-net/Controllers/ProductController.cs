@@ -17,10 +17,10 @@ public class ProductController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet]
     public async Task<IActionResult> GetProductById(int id)
     {
-        var product = await _context.Products.FindAsync(id);
+        var product = await _context.Product.FindAsync(id);
 
         if (product == null)
         {
@@ -31,6 +31,21 @@ public class ProductController : ControllerBase
         return Ok(product);
     }
 
+    [HttpGet("/products")]
+    public async Task<IActionResult> GetAllProducts()
+    {
+        var products = await _context.Product.ToListAsync();
+
+        if (products == null || !products.Any())
+        {
+            return NotFound();
+        }
+
+        _logger.LogInformation("All products have been retrieved: {@Products}", products);
+        return Ok(products);
+    }
+
+
     [HttpPost]
     public async Task<IActionResult> CreateProduct([FromBody] Product product)
     {
@@ -39,7 +54,7 @@ public class ProductController : ControllerBase
             return BadRequest(); //404
         }
 
-        _context.Products.Add(product);
+        _context.Product.Add(product);
         await _context.SaveChangesAsync(); //save changes
 
         _logger.LogInformation("Product with ID {ProductId} has been created: {@Product}", product.Id, product);

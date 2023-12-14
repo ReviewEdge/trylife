@@ -2,6 +2,7 @@ import { Counter } from "./components/Counter";
 import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
 import { ViewProducts } from "./components/ViewProducts";
+import { AddClient } from './components/AddClient';
 
 const AppRoutes = [
   {
@@ -9,8 +10,8 @@ const AppRoutes = [
     element: <Home />
   },
   {
-    path: '/counter',
-    element: <Counter />
+    path: '/addclient',
+    element: <AddClient />
   },
   {
     path: '/fetch-data',
@@ -20,6 +21,10 @@ const AppRoutes = [
     path: '/view-products',
     element: <ViewProducts />
   }
+  // {
+  //   path: '/fetch-data',
+  //   element: <FetchData />
+  // }
 ];
 
 export default AppRoutes;
