@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "name": "Formula1",
+        "description": "Baby Formula",
+        "category": "Food",
+        "age_range_months_start": 1,
+        "age_range_months_end": 24,
+        "points": 4,
+        "training": "None"
+    },
+    {
+        "id": 2,
+        "name": "Formula2",
+        "description": "Baby Formula",
+        "category": "Food",
+        "age_range_months_start": 1,
+        "age_range_months_end": 24,
+        "points": 4,
+        "training": "None"
+    },
+    {
+        "id": 3,
+        "name": "Formula3",
+        "description": "Baby Formula",
+        "category": "Food",
+        "age_range_months_start": 1,
+        "age_range_months_end": 24,
+        "points": 4,
+        "training": "None"
+    }
+]
