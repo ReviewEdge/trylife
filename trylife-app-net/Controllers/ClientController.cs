@@ -14,7 +14,7 @@ public class ClientController : ControllerBase
 
     public ClientController(ApplicationDbContext context)
     {
-        _context = context;
+        _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
     [HttpGet]
@@ -38,22 +38,22 @@ public class ClientController : ControllerBase
     }
 
     [HttpGet("/clients")]
-    public async Task<IActionResult>  GetAllClients()
+    public async Task<IActionResult> GetAllClients()
     {
         try
         {
-            // var clients = await _context.Clients.ToListAsync();
+            var clients = await _context.Client.ToListAsync(); // Fetch all clients from the Clients table
 
-            // if (clients == null || !clients.Any())
-            // {
-            //     return NotFound();
-            // }
-            var clients = new {name = "Chad"};
-            return Ok(clients);
+            if (clients == null || !clients.Any())
+            {
+                return NotFound(); // Return 404 if no clients are found
+            }
+
+            return Ok(clients); // Return the list of clients
         }
         catch (Exception ex)
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the getAllClients");
+            return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred: " + ex.ToString());
         }
     }
 

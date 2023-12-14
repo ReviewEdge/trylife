@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 public class Startup
 {
@@ -16,7 +17,6 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllersWithViews();
-        services.AddScoped<ApplicationBuilder>();
 
         services.AddDbContext<ApplicationDbContext>(options =>
         options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));

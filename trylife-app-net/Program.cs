@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<ApplicationDbContext>();
 
 // Configure logging to output to the console
 builder.Logging.AddConsole();
