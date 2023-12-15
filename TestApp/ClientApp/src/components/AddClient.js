@@ -45,4 +45,90 @@ export const AddClient = () => {
   );
 };
 
+export const ClientForm = ({ onClientAdded }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    children: [],
+    phone: '',
+    points: 0,
+    id: null
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch('/clients', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          children: formData.children,
+          phone: parseInt(formData.phone),
+          points: parseInt(formData.points),
+          id: formData.id
+        })
+      });
+
+      if (response.ok) {
+        console.log('Client created successfully!');
+        // You can reset the form or perform other actions after successful creation
+        onClientAdded();
+      } else {
+        console.error('Failed to create client.');
+      }
+    } catch (error) {
+      console.error('Error creating client:', error);
+    }
+  };
+
+  return (
+    <div style={{ maxWidth: '400px', margin: 'auto' }}>
+      <form>
+        <div style={{ marginBottom: '10px' }}>
+          <label>Name:</label>
+          <input type="text" name="name" value={formData.name} onChange={handleChange} />
+        </div>
+
+        <div style={{ marginBottom: '10px' }}>
+          <label>Email:</label>
+          <input type="text" name="email" value={formData.email} onChange={handleChange} />
+        </div>
+
+        <div style={{ marginBottom: '10px' }}>
+          <label>Children:</label>
+          <input type="text" name="children" value={formData.children} onChange={handleChange} />
+        </div>
+
+        <div style={{ marginBottom: '10px' }}>
+          <label>Phone:</label>
+          <input type="number" name="phone" value={formData.phone} onChange={handleChange} />
+        </div>
+
+        <div style={{ marginBottom: '10px' }}>
+          <label>Points:</label>
+          <input type="number" name="points" value={formData.points} onChange={handleChange} />
+        </div>
+
+        <div style={{ marginBottom: '10px' }}>
+          <label>Id:</label>
+          <input type="number" name="id" value={formData.id} onChange={handleChange} />
+        </div>
+
+        <button type="button" onClick={handleSubmit}>
+          Add New Client
+        </button>
+      </form>
+    </div>
+  );
+};
+
+
 export default AddClient;
