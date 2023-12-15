@@ -1,8 +1,8 @@
 import { Counter } from "./components/Counter";
 import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
-import { AddClient } from './components/AddClient';
-import AddProduct from "./components/AddProduct";
+import { AddClient, ClientForm } from './components/AddClient';
+import {AddProduct, ProductForm } from "./components/AddProduct";
 
 const AppRoutes = [
   {
@@ -11,11 +11,13 @@ const AppRoutes = [
   },
   {
     path: '/addclient',
-    element: <AddClient />
+    element: <AddClient />,
+    element: <ClientForm />
   },
   {
     path: '/addproduct',
-    element: <AddProduct />
+    element: <AddProduct />,
+    element: <ProductForm />
   }
 ];
 
