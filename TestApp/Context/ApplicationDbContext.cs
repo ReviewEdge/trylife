@@ -13,9 +13,13 @@ public class ApplicationDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         
-        modelBuilder.Entity<Product>().ToTable("product");
-        modelBuilder.Entity<Client>().ToTable("client");
-    }
+        modelBuilder.Entity<Product>().ToTable("product")
+        .Property(p => p.Id)
+        .ValueGeneratedOnAdd();
 
+        modelBuilder.Entity<Client>().ToTable("client")
+        .Property(p => p.Id)
+        .ValueGeneratedOnAdd();
+    }
     
 }

@@ -47,7 +47,6 @@ export const AddClient = () => {
 
 export const ClientForm = ({ onClientAdded }) => {
   const [formData, setFormData] = useState({
-    id: null,
     name: '',
     email: '',
     // children: '',
@@ -68,7 +67,6 @@ export const ClientForm = ({ onClientAdded }) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          id: parseInt(formData.id),
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
@@ -76,14 +74,6 @@ export const ClientForm = ({ onClientAdded }) => {
           // children: formData.children,
         })
       });
-
-      console.log(JSON.stringify({
-        id: formData.id,
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        points: parseInt(formData.points),
-      }))
 
       if (response.ok) {
         console.log('Client created successfully!');
@@ -99,11 +89,6 @@ export const ClientForm = ({ onClientAdded }) => {
   return (
     <div style={{ maxWidth: '400px', margin: 'auto' }}>
       <form>
-        <div style={{ marginBottom: '10px' }}>
-          <label>Id:</label>
-          <input type="number" name="id" value={formData.id} onChange={handleChange} />
-        </div>
-
         <div style={{ marginBottom: '10px' }}>
           <label>Name:</label>
           <input type="text" name="name" value={formData.name} onChange={handleChange} />
