@@ -10,12 +10,12 @@ export const AddClient = () => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-  
+
         const contentType = response.headers.get('content-type');
         if (!contentType || !contentType.includes('application/json')) {
           throw new TypeError('Oops, not JSON!');
         }
-  
+
         return response.json(); // Parse response as JSON
       })
       .then((data) => {
@@ -26,7 +26,7 @@ export const AddClient = () => {
         console.error('There was a problem with the fetch operation:', error);
         setErrorMessage('Error fetching data');
       });
-  }, []);  
+  }, []);
 
   return (
     <main>
@@ -47,12 +47,12 @@ export const AddClient = () => {
 
 export const ClientForm = ({ onClientAdded }) => {
   const [formData, setFormData] = useState({
+    id: null,
     name: '',
     email: '',
-    children: [],
+    // children: '',
     phone: '',
     points: 0,
-    id: null
   });
 
   const handleChange = (e) => {
@@ -68,18 +68,25 @@ export const ClientForm = ({ onClientAdded }) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+          id: parseInt(formData.id),
           name: formData.name,
           email: formData.email,
-          children: formData.children,
-          phone: parseInt(formData.phone),
+          phone: formData.phone,
           points: parseInt(formData.points),
-          id: formData.id
+          // children: formData.children,
         })
       });
 
+      console.log(JSON.stringify({
+        id: formData.id,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        points: parseInt(formData.points),
+      }))
+
       if (response.ok) {
         console.log('Client created successfully!');
-        // You can reset the form or perform other actions after successful creation
         onClientAdded();
       } else {
         console.error('Failed to create client.');
@@ -93,6 +100,11 @@ export const ClientForm = ({ onClientAdded }) => {
     <div style={{ maxWidth: '400px', margin: 'auto' }}>
       <form>
         <div style={{ marginBottom: '10px' }}>
+          <label>Id:</label>
+          <input type="number" name="id" value={formData.id} onChange={handleChange} />
+        </div>
+
+        <div style={{ marginBottom: '10px' }}>
           <label>Name:</label>
           <input type="text" name="name" value={formData.name} onChange={handleChange} />
         </div>
@@ -102,10 +114,10 @@ export const ClientForm = ({ onClientAdded }) => {
           <input type="text" name="email" value={formData.email} onChange={handleChange} />
         </div>
 
-        <div style={{ marginBottom: '10px' }}>
+        {/* <div style={{ marginBottom: '10px' }}>
           <label>Children:</label>
           <input type="text" name="children" value={formData.children} onChange={handleChange} />
-        </div>
+        </div> */}
 
         <div style={{ marginBottom: '10px' }}>
           <label>Phone:</label>
@@ -117,11 +129,6 @@ export const ClientForm = ({ onClientAdded }) => {
           <input type="number" name="points" value={formData.points} onChange={handleChange} />
         </div>
 
-        <div style={{ marginBottom: '10px' }}>
-          <label>Id:</label>
-          <input type="number" name="id" value={formData.id} onChange={handleChange} />
-        </div>
-
         <button type="button" onClick={handleSubmit}>
           Add New Client
         </button>
@@ -129,6 +136,5 @@ export const ClientForm = ({ onClientAdded }) => {
     </div>
   );
 };
-
 
 export default AddClient;

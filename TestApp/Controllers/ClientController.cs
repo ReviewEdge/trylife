@@ -17,7 +17,7 @@ public class ClientController : ControllerBase
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("")]
     public async Task<IActionResult> GetClientById(int id)
     {
         try
@@ -57,30 +57,26 @@ public class ClientController : ControllerBase
         }
     }
 
-    [HttpGet]
-    public IActionResult GetClientByName([FromQuery] string name)
-    {
-        var client = _context.Clients.FirstOrDefault(c => c.Name == name);
-
-        if (client == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(client);
-    }
-
-    [HttpPost]
+    [HttpPost("/clients")]
     public async Task<IActionResult> CreateClient([FromBody] Client client)
     {
-        if (client == null)
+        try
         {
-            return BadRequest();
+            if (client == null)
+            {
+                return BadRequest();
+            }
+
+            _context.Clients.Add(client);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetClientById), new { id = client.Id }, client);
         }
-
-        _context.Clients.Add(client);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction(nameof(GetClientById), new { id = client.Id }, client);
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred: " + ex.ToString());
+        }
     }
+
+
 }
