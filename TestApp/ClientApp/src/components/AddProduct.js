@@ -63,6 +63,16 @@ export const ProductForm = ({ onProductAdded }) => {
 
   const handleSubmit = async () => {
     try {
+      console.log(JSON.stringify({
+        name: formData.name,
+        description: formData.description,
+        category: formData.category,
+        age_range_months_start: parseInt(formData.ageRangeMonthsStart),
+        age_range_months_end: parseInt(formData.ageRangeMonthsEnd),
+        points: parseInt(formData.points),
+        training: formData.training
+      }))
+
       const response = await fetch('/products', {
         method: 'POST',
         headers: {
