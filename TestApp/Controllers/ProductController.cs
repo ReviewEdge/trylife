@@ -17,7 +17,7 @@ public class ProductController : ControllerBase
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("")]
     public async Task<IActionResult> GetProductById(int id)
     {
         try
@@ -57,7 +57,7 @@ public class ProductController : ControllerBase
         }
     }
 
-    [HttpPost]
+    [HttpPost("/products")]
     public async Task<IActionResult> CreateProduct([FromBody] Product product)
     {
         if (product == null)

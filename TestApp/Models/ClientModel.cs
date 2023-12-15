@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 public class Client
 {
     [Key]
-    public int Id { get; set; }
+    public int? Id { get; set; }
 
     [Required]
     [StringLength(45)]
@@ -13,7 +13,6 @@ public class Client
 
     [Required]
     [StringLength(45)]
-    [EmailAddress]
     public string? Email { get; set; }
 
     [Required]
